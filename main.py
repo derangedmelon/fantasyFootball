@@ -33,13 +33,21 @@ newData.loc[:, 'now_cost'] = newData['now_cost']/10
 maxID = newData['id'].max()
 print("maxID = ", maxID)
 
-for n in range(0, maxID):
-    dg.urltofile(fgwStatsUrl+str(n),
-                 "C:/Users/tomk1/PycharmProjects/fantasyFootball2/gameweeks/fantasyGWStats"+str(n)+".json")
-    time.sleep(1/40)
-    print(n)
+# When required uncomment code to update gameweek data
+#for n in range(0, maxID):
+#    dg.urltofile(fgwStatsUrl+str(n),
+#                 "C:/Users/tomk1/PycharmProjects/fantasyFootball2/gameweeks/fantasyGWStats"+str(n)+".json")
+#    time.sleep(1/40)
+#    print(n)
 
-# Lookup ID, get and store match history, then plot a graph of the interesting data
+# Plot player gameweek history data
+n = 10
+with open("C:/Users/tomk1/PycharmProjects/fantasyFootball2/gameweeks/fantasyGWStats" + str(n) + ".json",
+          "r", encoding="utf-8") as fg:
+    jsonGWText = fg.read()
+
+jsonGW = json.loads(jsonGWText)
+print(jsonGW.keys())
 
 print(newData.sort_values(by="p/v", ascending=False).head(20))
 newData.sort_values(by="p/v", ascending=False).to_html('temp.html')
