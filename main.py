@@ -3,6 +3,7 @@ import numpy as np
 import json
 import DataGrabber as dg
 import time
+import matplotlib.pyplot as plt
 
 
 pd.set_option('display.max_rows', 500)
@@ -19,9 +20,9 @@ fgwStatsUrl = 'https://fantasy.premierleague.com/api/element-summary/'
 with open("fantasyStats.json", "r", encoding="utf-8") as f:
     jsonText = f.read()
 
-json = json.loads(jsonText)
-print(json.keys())
-data = pd.DataFrame(json['elements'])
+jsont = json.loads(jsonText)
+print(jsont.keys())
+data = pd.DataFrame(jsont['elements'])
 print(data.keys())
 
 newData = data[['id', 'first_name', 'second_name', 'form', 'team', 'total_points', 'expected_goals', 'expected_assists',
@@ -41,13 +42,26 @@ print("maxID = ", maxID)
 #    print(n)
 
 # Plot player gameweek history data
-n = 10
+n = 140
 with open("C:/Users/tomk1/PycharmProjects/fantasyFootball2/gameweeks/fantasyGWStats" + str(n) + ".json",
           "r", encoding="utf-8") as fg:
     jsonGWText = fg.read()
 
 jsonGW = json.loads(jsonGWText)
 print(jsonGW.keys())
+gwData = pd.DataFrame(jsonGW['history'])
+print(gwData.keys())
+
+newGWData = gwData[['element', 'fixture', 'goals_scored', 'assists', 'minutes', 'total_points']]
+
 
 print(newData.sort_values(by="p/v", ascending=False).head(20))
+print(newGWData)
+
+# Plot GW points for a player
+plotGWData = newGWData[['total_points']]
+plt.plot(plotGWData)
+plt.show()
+
+
 newData.sort_values(by="p/v", ascending=False).to_html('temp.html')
