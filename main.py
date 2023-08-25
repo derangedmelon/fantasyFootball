@@ -4,6 +4,7 @@ import json
 import DataGrabber as dg
 import time
 import matplotlib.pyplot as plt
+import os
 
 
 pd.set_option('display.max_rows', 500)
@@ -33,17 +34,19 @@ newData.loc[:, 'now_cost'] = newData['now_cost']/10
 
 maxID = newData['id'].max()
 print("maxID = ", maxID)
+cwd = os.getcwd()
+print("Working directory = ", cwd)
 
 # When required uncomment code to update gameweek data
 #for n in range(0, maxID):
 #    dg.urltofile(fgwStatsUrl+str(n),
-#                 "C:/Users/tomk1/PycharmProjects/fantasyFootball2/gameweeks/fantasyGWStats"+str(n)+".json")
+#                 cwd + "/gameweeks/fantasyGWStats"+str(n)+".json")
 #    time.sleep(1/40)
 #    print(n)
 
 # Plot player gameweek history data
 n = 140
-with open("C:/Users/tomk1/PycharmProjects/fantasyFootball2/gameweeks/fantasyGWStats" + str(n) + ".json",
+with open(cwd + "/gameweeks/fantasyGWStats" + str(n) + ".json",
           "r", encoding="utf-8") as fg:
     jsonGWText = fg.read()
 
